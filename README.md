@@ -4,6 +4,12 @@
 
 **Jagame** – lihtne veebirakendus, millega sõbrad, korterikaaslased või reisikaaslased saavad ühiseid kulusid kirja panna ja välja arvutada, kes kellele palju võlgneb.
 
+## Lingid
+
+- **Avalik leht:** <https://jagame.vercel.app/>
+- **Arenduspäevik:** <https://jagame.vercel.app/paevik>
+- **Lähtekood (GitHub):** <https://github.com/kuttim/jagame>
+
 ## Eesmärk
 
 Ühisel reisil või ühes korteris maksab erinev inimene erinevaid arveid (toit, bensiin, üür, kommunaalid). Lõpus on keeruline meenutada, kes kui palju maksis ja kes kellele raha võlgneb. Tulemuseks on kas arvutustabeli jantimine või ebamugavad vaidlused.
@@ -61,6 +67,29 @@ Projekt ei vaja ühtegi välist API-t, kaamerat ega e-posti teenust.
 7. **Tasumised ja eksport** – tasutuks märkimine ja CSV allalaadimine.
 8. **Kujundus** – mobiilisõbralik paigutus, selged veateated.
 9. **Testimine ja avaldamine** – automaattestid, proovimine päris reisi või kulude peal, README juhend.
+
+## Käivitamine arvutis
+
+Vajalik on [Node.js](https://nodejs.org/) 20.9 või uuem ja Git.
+
+```bash
+git clone https://github.com/kuttim/jagame.git
+cd jagame
+npm install
+npm run dev
+```
+
+Seejärel avaneb rakendus aadressil <http://localhost:3000> ja arenduspäevik aadressil <http://localhost:3000/paevik>.
+
+| Käsk | Mida teeb |
+|---|---|
+| `npm run dev` | käivitab arendusserveri |
+| `npm run build` | ehitab rakenduse avaldamiseks |
+| `npm start` | käivitab ehitatud rakenduse (enne `npm run build`) |
+| `npm test` | käivitab ühiktestid (Vitest) |
+| `npm run lint` | kontrollib koodi ESLintiga |
+
+Andmebaasi ja sisselogimist rakendus veel ei kasuta, seega muid seadistusi (keskkonnamuutujaid) praegu vaja pole. Need lisanduvad koos Prisma ja Auth.js-iga.
 
 ## Valmisoleku kriteeriumid
 
