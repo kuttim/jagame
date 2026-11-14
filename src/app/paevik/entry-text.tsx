@@ -1,4 +1,4 @@
-/** Kuvab logikirje teksti; `tagurpidi ülakomade` vahel olev osa on kood. */
+/** Renders a log entry's text; the parts between backticks are shown as code. */
 export function EntryText({ text }: { text: string }) {
   const parts = text.split(/`([^`]+)`/);
   return (

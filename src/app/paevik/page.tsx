@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { formatDate, getDays, summarize, weekday } from "@/lib/logi";
+import { formatDate, getDays, summarize, weekday } from "@/lib/devlog";
 
 export const metadata: Metadata = {
   title: "Arenduspäevik – Jagame",
   description: "Jagame arenduse päevik: mis tehti, miks ja mis ebaõnnestus.",
 };
 
-export default function PaevikIndex() {
+export default function DiaryIndexPage() {
   const days = getDays();
   const entryCount = days.reduce((n, d) => n + d.entries.length, 0);
 

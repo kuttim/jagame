@@ -8,7 +8,7 @@ import {
   getDays,
   getNeighbours,
   weekday,
-} from "@/lib/logi";
+} from "@/lib/devlog";
 import { EntryText } from "../entry-text";
 
 export function generateStaticParams() {
@@ -24,15 +24,15 @@ export async function generateMetadata(
   return { title: `${formatDate(day.date)} – Jagame arenduspäevik` };
 }
 
-export default function PaevPage(props: PageProps<"/paevik/[date]">) {
+export default function DayPage(props: PageProps<"/paevik/[date]">) {
   return (
     <Suspense fallback={<p className="text-zinc-500">Laen päeva…</p>}>
-      <Paev params={props.params} />
+      <Day params={props.params} />
     </Suspense>
   );
 }
 
-async function Paev({ params }: Pick<PageProps<"/paevik/[date]">, "params">) {
+async function Day({ params }: Pick<PageProps<"/paevik/[date]">, "params">) {
   const { date } = await params;
   const day = getDay(date);
   if (!day) notFound();

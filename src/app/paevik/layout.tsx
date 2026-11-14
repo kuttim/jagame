@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-export default function PaevikLayout({ children }: LayoutProps<"/paevik">) {
+export default function DiaryLayout({ children }: LayoutProps<"/paevik">) {
   return (
     <div className="mx-auto w-full max-w-2xl px-5 pb-20 pt-8 sm:px-6">
       <nav className="mb-12 flex items-center justify-between text-sm">
