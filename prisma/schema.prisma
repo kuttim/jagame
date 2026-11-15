@@ -1,0 +1,93 @@
+// Data model for Jagame (README plan, step 1).
+// All money amounts are integer cents (see src/lib/calculation/money.ts).
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum SplitType {
+  EQUAL
+  AMOUNTS
+  PERCENT
+}
+
+model Group {
+  id         String   @id @default(cuid())
+  name       String
+  /// Secret token in the shareable join link; anyone with it can join
+  shareToken String   @unique @default(cuid())
+  createdAt  DateTime @default(now())
+
+  members  Member[]
+  expenses Expense[]
+  payments Payment[]
+}
+
+model Member {
+  id        String   @id @default(cuid())
+  groupId   String
+  name      String
+  createdAt DateTime @default(now())
+
+  group            Group          @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  paidExpenses     Expense[]
+  shares           ExpenseShare[]
+  paymentsSent     Payment[]      @relation("PaymentFrom")
+  paymentsReceived Payment[]      @relation("PaymentTo")
+
+  @@index([groupId])
+}
+
+model Expense {
+  id          String    @id @default(cuid())
+  groupId     String
+  description String
+  /// Total amount in cents; must equal the sum of its shares
+  amount      Int
+  date        DateTime  @db.Date
+  payerId     String
+  splitType   SplitType @default(EQUAL)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  group  Group          @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  payer  Member         @relation(fields: [payerId], references: [id], onDelete: NoAction)
+  shares ExpenseShare[]
+
+  @@index([groupId, date])
+}
+
+/// One member's share of one expense, in cents
+model ExpenseShare {
+  id        String @id @default(cuid())
+  expenseId String
+  memberId  String
+  amount    Int
+
+  expense Expense @relation(fields: [expenseId], references: [id], onDelete: Cascade)
+  member  Member  @relation(fields: [memberId], references: [id], onDelete: NoAction)
+
+  @@unique([expenseId, memberId])
+  @@index([memberId])
+}
+
+/// A transfer between two members that has actually been made
+model Payment {
+  id           String   @id @default(cuid())
+  groupId      String
+  fromMemberId String
+  toMemberId   String
+  amount       Int
+  paidAt       DateTime @default(now())
+
+  group      Group  @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  fromMember Member @relation("PaymentFrom", fields: [fromMemberId], references: [id], onDelete: NoAction)
+  toMember   Member @relation("PaymentTo", fields: [toMemberId], references: [id], onDelete: NoAction)
+
+  @@index([groupId])
+}

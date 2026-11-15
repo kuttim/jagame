@@ -89,7 +89,20 @@ Seejärel avaneb rakendus aadressil <http://localhost:3000> ja arenduspäevik aa
 | `npm test` | käivitab ühiktestid (Vitest) |
 | `npm run lint` | kontrollib koodi ESLintiga |
 
-Andmebaasi ja sisselogimist rakendus veel ei kasuta, seega muid seadistusi (keskkonnamuutujaid) praegu vaja pole. Need lisanduvad koos Prisma ja Auth.js-iga.
+Rakendus käivitub ka ilma andmebaasita, sest ükski leht ei loe veel andmeid. Andmebaasi kasutamiseks tee PostgreSQL-andmebaas (nt tasuta [Neon](https://neon.com/)) ja loo projekti juurkausta fail `.env` (Git seda ei jälgi):
+
+```
+DATABASE_URL=postgresql://...        # rakenduse ühendus
+DATABASE_URL_UNPOOLED=postgresql://... # otseühendus migratsioonide jaoks
+```
+
+Seejärel loo tabelid käsuga `npx prisma migrate deploy` ja kontrolli ühendust käsuga `npm run db:check`.
+
+| Andmebaasi käsk | Mida teeb |
+|---|---|
+| `npx prisma migrate deploy` | rakendab migratsioonid andmebaasi |
+| `npx prisma migrate dev` | loob ja rakendab uue migratsiooni pärast skeemi muutmist |
+| `npm run db:check` | kontrollib, et rakendus saab andmebaasiga ühenduse |
 
 ## Valmisoleku kriteeriumid
 
