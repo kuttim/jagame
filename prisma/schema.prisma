@@ -16,13 +16,29 @@ enum SplitType {
   PERCENT
 }
 
+/// A registered account. Only needed to create groups; joining a group by link
+/// needs no account (see Member).
+model User {
+  id           String   @id @default(cuid())
+  /// Always stored lowercase (enforced by a CHECK constraint)
+  email        String   @unique
+  name         String
+  /// Password hash only, never the password itself
+  passwordHash String
+  createdAt    DateTime @default(now())
+
+  groups Group[]
+}
+
 model Group {
   id         String   @id @default(cuid())
   name       String
+  ownerId    String
   /// Secret token in the shareable join link; anyone with it can join
   shareToken String   @unique @default(cuid())
   createdAt  DateTime @default(now())
 
+  owner    User      @relation(fields: [ownerId], references: [id], onDelete: Restrict)
   members  Member[]
   expenses Expense[]
   payments Payment[]

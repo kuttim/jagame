@@ -102,6 +102,7 @@ Seejärel loo tabelid käsuga `npx prisma migrate deploy` ja kontrolli ühendust
 |---|---|
 | `npx prisma migrate deploy` | rakendab migratsioonid andmebaasi |
 | `npx prisma migrate dev` | loob ja rakendab uue migratsiooni pärast skeemi muutmist |
+| `npx prisma generate` | uuendab Prisma klienti (tee pärast iga skeemimuutust, `migrate dev` ei tee seda ise) |
 | `npm run db:check` | kontrollib, et rakendus saab andmebaasiga ühenduse |
 
 ## Valmisoleku kriteeriumid
