@@ -9,7 +9,7 @@ const linkClass =
 export function SiteHeader() {
   return (
     <header className="border-b border-zinc-200 dark:border-zinc-800">
-      <nav className="mx-auto flex w-full max-w-5xl items-center justify-between gap-4 px-5 py-3 text-sm sm:px-6">
+      <nav className="mx-auto flex w-full max-w-6xl items-center justify-between gap-4 px-5 py-3 text-sm sm:px-6">
         <div className="flex items-center gap-5">
           <Link
             href="/"
