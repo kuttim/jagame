@@ -7,7 +7,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   // Credentials sign-in requires JWT sessions: the session lives in a signed,
   // HttpOnly cookie instead of a database table.
   session: { strategy: "jwt" },
-  pages: { signIn: "/logi-sisse" },
+  pages: { signIn: "/login" },
   providers: [
     Credentials({
       credentials: { email: {}, password: {} },

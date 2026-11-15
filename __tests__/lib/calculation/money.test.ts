@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { assertCents, formatEuro } from "./money";
+import { assertCents, formatEuro } from "@/lib/calculation/money";
 
 describe("formatEuro", () => {
   it("formats cents as euros with a comma and two decimals", () => {

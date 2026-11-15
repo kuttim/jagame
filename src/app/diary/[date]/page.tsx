@@ -16,7 +16,7 @@ export function generateStaticParams() {
 }
 
 export async function generateMetadata(
-  props: PageProps<"/paevik/[date]">,
+  props: PageProps<"/diary/[date]">,
 ): Promise<Metadata> {
   const { date } = await props.params;
   const day = getDay(date);
@@ -24,7 +24,7 @@ export async function generateMetadata(
   return { title: `${formatDate(day.date)} – Jagame arenduspäevik` };
 }
 
-export default function DayPage(props: PageProps<"/paevik/[date]">) {
+export default function DayPage(props: PageProps<"/diary/[date]">) {
   return (
     <Suspense fallback={<p className="text-zinc-500">Laen päeva…</p>}>
       <Day params={props.params} />
@@ -32,7 +32,7 @@ export default function DayPage(props: PageProps<"/paevik/[date]">) {
   );
 }
 
-async function Day({ params }: Pick<PageProps<"/paevik/[date]">, "params">) {
+async function Day({ params }: Pick<PageProps<"/diary/[date]">, "params">) {
   const { date } = await params;
   const day = getDay(date);
   if (!day) notFound();
@@ -42,7 +42,7 @@ async function Day({ params }: Pick<PageProps<"/paevik/[date]">, "params">) {
   return (
     <article>
       <Link
-        href="/paevik"
+        href="/diary"
         className="text-sm text-zinc-500 transition-colors hover:text-zinc-900 dark:hover:text-zinc-100"
       >
         ← Kõik päevad
@@ -88,7 +88,7 @@ async function Day({ params }: Pick<PageProps<"/paevik/[date]">, "params">) {
       <nav className="mt-14 grid grid-cols-2 gap-4 border-t border-zinc-200 pt-6 text-sm dark:border-zinc-800">
         {older ? (
           <Link
-            href={`/paevik/${older.date}`}
+            href={`/diary/${older.date}`}
             className="group rounded-lg p-3 transition-colors hover:bg-zinc-100 dark:hover:bg-zinc-900"
           >
             <span className="block text-xs text-zinc-500">← Eelmine päev</span>
@@ -99,7 +99,7 @@ async function Day({ params }: Pick<PageProps<"/paevik/[date]">, "params">) {
         )}
         {newer ? (
           <Link
-            href={`/paevik/${newer.date}`}
+            href={`/diary/${newer.date}`}
             className="group rounded-lg p-3 text-right transition-colors hover:bg-zinc-100 dark:hover:bg-zinc-900"
           >
             <span className="block text-xs text-zinc-500">Järgmine päev →</span>

@@ -35,7 +35,7 @@ export default function DiaryIndexPage() {
               className="absolute -left-[5px] top-2 size-2.5 rounded-full bg-indigo-500 ring-4 ring-white dark:ring-[#0a0a0a]"
             />
             <Link
-              href={`/paevik/${day.date}`}
+              href={`/diary/${day.date}`}
               className="group block rounded-xl border border-zinc-200 p-5 transition-colors hover:border-indigo-400 hover:bg-indigo-50/50 dark:border-zinc-800 dark:hover:border-indigo-500/60 dark:hover:bg-indigo-500/5"
             >
               <p className="text-xs font-medium uppercase tracking-wide text-indigo-600 dark:text-indigo-400">

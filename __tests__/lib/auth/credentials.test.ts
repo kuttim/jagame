@@ -4,8 +4,8 @@ import {
   isValidEmail,
   normalizeEmail,
   type StoredUser,
-} from "./credentials";
-import { hashPassword } from "./password";
+} from "@/lib/auth/credentials";
+import { hashPassword } from "@/lib/auth/password";
 
 describe("normalizeEmail", () => {
   it("lowercases and trims", () => {

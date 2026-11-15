@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
-import { splitEqual } from "./splitting";
-import { computeBalances, computeSummaries, type Expense } from "./balances";
-import { randomInt, seededRandom } from "./test-utils";
+import { splitEqual } from "@/lib/calculation/splitting";
+import { computeBalances, computeSummaries, type Expense } from "@/lib/calculation/balances";
+import { randomInt, seededRandom } from "../../helpers/random";
 
 const members = ["mari", "jaan", "kati"];
 

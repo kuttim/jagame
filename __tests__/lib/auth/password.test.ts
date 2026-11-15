@@ -6,7 +6,7 @@ import {
   hashPassword,
   validatePassword,
   verifyPassword,
-} from "./password";
+} from "@/lib/auth/password";
 
 // bcrypt's minimum cost keeps the tests fast; one test checks the real cost.
 const TEST_COST = 4;

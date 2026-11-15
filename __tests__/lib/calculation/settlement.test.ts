@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { splitEqual } from "./splitting";
-import { formatEuro } from "./money";
-import { computeBalances, type Balances, type Transfer } from "./balances";
-import { settle } from "./settlement";
-import { randomInt, seededRandom } from "./test-utils";
+import { splitEqual } from "@/lib/calculation/splitting";
+import { formatEuro } from "@/lib/calculation/money";
+import { computeBalances, type Balances, type Transfer } from "@/lib/calculation/balances";
+import { settle } from "@/lib/calculation/settlement";
+import { randomInt, seededRandom } from "../../helpers/random";
 
 /** Applies transfers to balances, as a real payment would. */
 function apply(balances: Balances, transfers: Transfer[]): Balances {

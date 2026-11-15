@@ -7,7 +7,7 @@
 ## Lingid
 
 - **Avalik leht:** <https://jagame.vercel.app/>
-- **Arenduspäevik:** <https://jagame.vercel.app/paevik>
+- **Arenduspäevik:** <https://jagame.vercel.app/diary>
 - **Lähtekood (GitHub):** <https://github.com/kuttim/jagame>
 
 ## Eesmärk
@@ -79,7 +79,7 @@ npm install
 npm run dev
 ```
 
-Seejärel avaneb rakendus aadressil <http://localhost:3000> ja arenduspäevik aadressil <http://localhost:3000/paevik>.
+Seejärel avaneb rakendus aadressil <http://localhost:3000> ja arenduspäevik aadressil <http://localhost:3000/diary>.
 
 | Käsk | Mida teeb |
 |---|---|

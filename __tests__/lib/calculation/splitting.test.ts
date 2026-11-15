@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { splitByAmounts, splitByPercent, splitEqual } from "./splitting";
-import { randomInt, seededRandom } from "./test-utils";
+import { splitByAmounts, splitByPercent, splitEqual } from "@/lib/calculation/splitting";
+import { randomInt, seededRandom } from "../../helpers/random";
 
 const sum = (shares: Record<string, number>) =>
   Object.values(shares).reduce((a, b) => a + b, 0);

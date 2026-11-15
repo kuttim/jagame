@@ -10,7 +10,7 @@ export default function Home() {
       </p>
       <p className="mt-8">
         <Link
-          href="/paevik"
+          href="/diary"
           className="inline-flex items-center rounded-full bg-indigo-600 px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-indigo-500"
         >
           Loe arenduspäevikut →

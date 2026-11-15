@@ -21,10 +21,12 @@ Pea töö käigus automaatselt tegevuslogi failis `./logi.md`. Eesmärk on koost
 - Järgi README teostusplaani sammude järjekorda.
 - Arvutusloogika (saldod, tasaarvestus, ümardamine sentideni) kirjuta puhaste funktsioonidena ja kata Vitest-ühiktestidega.
 - Rahasummad hoia täisarvuna sentides, mitte ujukomaarvuna.
+- Testid on kaustas `__tests__/` (peegeldab `src/` struktuuri, nt `src/lib/auth/password.ts` → `__tests__/lib/auth/password.test.ts`), mitte `src/` sees. Testides impordi koodi aliasega `@/...`.
 - Commit'i väikeste loogiliste sammudena eestikeelse selge sõnumiga.
 
 ## Keel
 
 - **Veebileht on eesti keeles:** kõik kasutajale nähtavad tekstid (pealkirjad, nupud, veateated, kuupäevad, meta-kirjeldused).
 - **Kood on inglise keeles:** muutujad, funktsioonid, tüübid, failide ja kaustade nimed, kommentaarid, testide kirjeldused ja arendajale mõeldud veateated (nt `throw new RangeError(...)`). Kasutajale näidatavad veateated tõlgi eesti keelde kasutajaliideses.
-- **Erandid, mis jäävad eesti keelde:** `logi.md` ja selle faili nimi, commit'i sõnumid, README ja see juhis. Marsruudi `/paevik` URL on kasutajale nähtav, seega on see eestikeelne; kaust `src/app/paevik` järgib marsruuti.
+- **Marsruudid ja kaustad on inglise keeles:** `/diary`, `/register`, `/login`, `/groups`; kaust `src/app/<marsruut>` järgib marsruuti.
+- **Erandid, mis jäävad eesti keelde:** `logi.md` ja selle faili nimi, commit'i sõnumid, README ja see juhis.
