@@ -9,7 +9,7 @@ import {
   getNeighbours,
   weekday,
 } from "@/lib/devlog";
-import { EntryText } from "../entry-text";
+import { Entry } from "../entry";
 
 export function generateStaticParams() {
   return getDays().map((day) => ({ date: day.date }));
@@ -70,17 +70,7 @@ async function Day({ params }: Pick<PageProps<"/diary/[date]">, "params">) {
             <time className="font-mono text-sm text-zinc-500">
               {entry.time}
             </time>
-            <p className="mt-1 leading-7">
-              <EntryText text={entry.text} />
-            </p>
-            {entry.idea && (
-              <aside className="mt-3 rounded-lg border-l-4 border-amber-400 bg-amber-50 px-4 py-3 text-sm leading-6 text-amber-950 dark:bg-amber-400/10 dark:text-amber-100">
-                <span className="mr-2 text-xs font-semibold uppercase tracking-wide text-amber-700 dark:text-amber-300">
-                  Idee
-                </span>
-                <EntryText text={entry.idea} />
-              </aside>
-            )}
+            <Entry entry={entry} />
           </li>
         ))}
       </ol>

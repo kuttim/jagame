@@ -12,6 +12,9 @@ Pea töö käigus automaatselt tegevuslogi failis `./logi.md`. Eesmärk on koost
 - Uued kirjed lisa faili **lõppu**; vanu kirjeid ära kustuta ega muuda.
 - Rühmita kirjed kuupäeva järgi pealkirja all `## AAAA-KK-PP`.
 - Iga kirje on üks lühike punkt kujul: `- HH:MM – mida tehti – miks / mis õpiti / mis ebaõnnestus`.
+- Hoia kirje lugejasõbralik: **kuni umbes 600 tähemärki**. Kui tegevust on rohkem, jaga see mitmeks kirjeks (nt üks kirje sammu, üks olulise vea või otsuse kohta), mitte ühte tekstimüüri.
+- Alusta kirjet **lühikese ühelauselise pealkirjaga** (mida tehti, kuni ~100 tähemärki), seejärel detailid. Päevikuleht (`/diary`) näitab esimest lauset pealkirjana ja voltib pika teksti kokku.
+- Alusta detailide lõiku märksõnaga, et leht saaks need siltidena esile tõsta: `Otsus:`, `Viga:`, `Õppetund:`, `Kontrollisin …`, `Piirang:` või `Märkus:` (vt `src/lib/devlog-format.ts`). Üks lõik, üks märksõna.
 - Kirjuta eesti keeles. Märgi ära otsused ja põhjendused, tehtud vead ja nende lahendused ning ideed blogipostituseks (`💡`).
 - Ära salvesta logisse paroole, võtmeid ega muid saladusi.
 - `logi.md` commit'i koos vastava muudatusega.
