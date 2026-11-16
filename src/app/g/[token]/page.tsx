@@ -6,6 +6,7 @@ import { Suspense } from "react";
 import { getGroupByToken } from "@/lib/groups/queries";
 import { formatEuro } from "@/lib/calculation/money";
 import { formatDateEt } from "@/lib/expenses/format";
+import { computeGroupSummary } from "@/lib/expenses/summary";
 import {
   canAddMember,
   canLeave,
@@ -15,6 +16,7 @@ import {
 import { getViewer } from "@/lib/groups/viewer";
 import { addMember, claimMember, joinGroup, leaveGroup, removeMember } from "./actions";
 import { ActionButton } from "./action-button";
+import { Balances } from "./balances";
 import { CopyLink } from "./copy-link";
 import { NameForm } from "./name-form";
 
@@ -49,6 +51,7 @@ async function Group({ params }: Pick<PageProps<"/g/[token]">, "params">) {
     requestHeaders.get("x-forwarded-proto") ??
     (host?.startsWith("localhost") ? "http" : "https");
   const shareUrl = `${protocol}://${host}/g/${group.shareToken}`;
+  const summary = computeGroupSummary(group.members, group.expenses);
 
   return (
     <>
@@ -70,6 +73,8 @@ async function Group({ params }: Pick<PageProps<"/g/[token]">, "params">) {
         </p>
         <CopyLink url={shareUrl} />
       </section>
+
+      {group.expenses.length > 0 && <Balances summary={summary} />}
 
       <section className="mt-10">
         <div className="flex items-center justify-between gap-4">
@@ -96,7 +101,7 @@ async function Group({ params }: Pick<PageProps<"/g/[token]">, "params">) {
         ) : (
           <>
             <p className="mt-1 text-sm text-zinc-500">
-              Kokku {formatEuro(group.expenses.reduce((sum, e) => sum + e.amount, 0))}
+              Kokku {formatEuro(summary.total)}
             </p>
             <ul className="mt-4 divide-y divide-zinc-200 rounded-2xl border border-zinc-200 dark:divide-zinc-800 dark:border-zinc-800">
               {group.expenses.map((expense) => (

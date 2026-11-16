@@ -40,6 +40,7 @@ export async function getGroupByToken(token: string) {
           description: true,
           amount: true,
           date: true,
+          payerId: true,
           payer: { select: { name: true } },
           shares: {
             orderBy: { member: { createdAt: "asc" } },

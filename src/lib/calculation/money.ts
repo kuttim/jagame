@@ -19,3 +19,14 @@ export function formatEuro(cents: Cents): string {
   const rest = String(abs % 100).padStart(2, "0");
   return `${sign}${euros},${rest} €`;
 }
+
+/**
+ * Like formatEuro, but with an explicit sign for balances: 6000 -> "+60,00 €",
+ * -1500 -> "−15,00 €" (a real minus sign), 0 -> "0,00 €".
+ */
+export function formatSignedEuro(cents: Cents): string {
+  assertCents(cents);
+  if (cents === 0) return formatEuro(0);
+  const sign = cents > 0 ? "+" : "−";
+  return `${sign}${formatEuro(Math.abs(cents))}`;
+}
