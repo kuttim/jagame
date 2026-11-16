@@ -25,6 +25,7 @@ Pea töö käigus automaatselt tegevuslogi failis `./logi.md`. Eesmärk on koost
 - Arvutusloogika (saldod, tasaarvestus, ümardamine sentideni) kirjuta puhaste funktsioonidena ja kata Vitest-ühiktestidega.
 - Rahasummad hoia täisarvuna sentides, mitte ujukomaarvuna.
 - Testid on kaustas `__tests__/` (peegeldab `src/` struktuuri, nt `src/lib/auth/password.ts` → `__tests__/lib/auth/password.test.ts`), mitte `src/` sees. Testides impordi koodi aliasega `@/...`.
+- Brauseritestid (Playwright) on kaustas `e2e/` ja käivituvad käsuga `npm run test:e2e`. Need loovad andmebaasi testkontosid (`e2e-…@example.com`) ja kustutavad need pärast ära. Kontrolli enne, millise andmebaasi vastu need jooksevad (README, „Avaldamine"), ja ära käivita neid päris saidi vastu ilma kasutajaga rääkimata.
 - Commit'i väikeste loogiliste sammudena eestikeelse selge sõnumiga.
 
 ## Keel

@@ -9,5 +9,13 @@ export default defineConfig({
   test: {
     environment: "node",
     include: ["__tests__/**/*.test.ts"],
+    coverage: {
+      provider: "v8",
+      // The logic lives in src/lib. Pages, Server Actions and database access
+      // are covered by the browser tests in e2e/ instead.
+      include: ["src/lib/**/*.ts"],
+      exclude: ["src/generated/**"],
+      reporter: ["text"],
+    },
   },
 });
