@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import {
+  entriesNewestFirst,
   formatDate,
   getDay,
   getDays,
@@ -61,8 +62,8 @@ async function Day({ params }: Pick<PageProps<"/diary/[date]">, "params">) {
       </header>
 
       <ol className="relative ml-2 border-l border-zinc-200 dark:border-zinc-800">
-        {day.entries.map((entry, i) => (
-          <li key={i} className="relative pb-8 pl-8 last:pb-0">
+        {entriesNewestFirst(day).map((entry) => (
+          <li key={`${entry.time}-${entry.text.slice(0, 40)}`} className="relative pb-8 pl-8 last:pb-0">
             <span
               aria-hidden
               className="absolute -left-[5px] top-2 size-2.5 rounded-full bg-zinc-400 ring-4 ring-white dark:bg-zinc-600 dark:ring-[#0a0a0a]"

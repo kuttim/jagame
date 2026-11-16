@@ -94,6 +94,15 @@ export function getNeighbours(date: string): {
   return { older: days[i + 1], newer: days[i - 1] };
 }
 
+/**
+ * A day's entries with the newest first, like the list of days. The file is
+ * appended to, so its order is oldest first; this reverses it and leaves the
+ * day itself untouched.
+ */
+export function entriesNewestFirst(day: DevlogDay): DevlogEntry[] {
+  return [...day.entries].reverse();
+}
+
 /** Strips `code` markers so the text can be shown as a plain summary. */
 export function plainText(text: string): string {
   return text.replace(/`([^`]+)`/g, "$1");
