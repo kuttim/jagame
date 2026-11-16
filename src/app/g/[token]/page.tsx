@@ -51,7 +51,7 @@ async function Group({ params }: Pick<PageProps<"/g/[token]">, "params">) {
     requestHeaders.get("x-forwarded-proto") ??
     (host?.startsWith("localhost") ? "http" : "https");
   const shareUrl = `${protocol}://${host}/g/${group.shareToken}`;
-  const summary = computeGroupSummary(group.members, group.expenses);
+  const summary = computeGroupSummary(group.members, group.expenses, group.payments);
 
   return (
     <>
@@ -74,7 +74,20 @@ async function Group({ params }: Pick<PageProps<"/g/[token]">, "params">) {
         <CopyLink url={shareUrl} />
       </section>
 
-      {group.expenses.length > 0 && <Balances summary={summary} />}
+      {group.expenses.length > 0 && (
+        <Balances
+          summary={summary}
+          token={token}
+          canManage={canManageExpenses(viewer)}
+          payments={group.payments.map((payment) => ({
+            id: payment.id,
+            fromName: payment.fromMember.name,
+            toName: payment.toMember.name,
+            amount: payment.amount,
+            date: payment.paidAt.toISOString().slice(0, 10),
+          }))}
+        />
+      )}
 
       <section className="mt-10">
         <div className="flex items-center justify-between gap-4">
@@ -100,9 +113,30 @@ async function Group({ params }: Pick<PageProps<"/g/[token]">, "params">) {
           </p>
         ) : (
           <>
-            <p className="mt-1 text-sm text-zinc-500">
-              Kokku {formatEuro(summary.total)}
-            </p>
+            <div className="mt-1 flex flex-wrap items-center justify-between gap-x-4 gap-y-1 text-sm text-zinc-500">
+              <p>Kokku {formatEuro(summary.total)}</p>
+              {canManageExpenses(viewer) && (
+                <p>
+                  Lae alla (CSV):{" "}
+                  {[
+                    ["expenses", "kulud"],
+                    ["balances", "saldod"],
+                    ["payments", "tasumised"],
+                  ].map(([type, label], i) => (
+                    <span key={type}>
+                      {i > 0 && " · "}
+                      <a
+                        href={`/g/${token}/export?type=${type}`}
+                        download
+                        className="text-indigo-600 underline-offset-2 hover:underline dark:text-indigo-400"
+                      >
+                        {label}
+                      </a>
+                    </span>
+                  ))}
+                </p>
+              )}
+            </div>
             <ul className="mt-4 divide-y divide-zinc-200 rounded-2xl border border-zinc-200 dark:divide-zinc-800 dark:border-zinc-800">
               {group.expenses.map((expense) => (
                 <li key={expense.id} className="flex items-start justify-between gap-4 px-4 py-3">

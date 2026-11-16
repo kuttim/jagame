@@ -109,12 +109,17 @@ export async function claimMember(token: string, memberId: string) {
 
 export type ActionResult = { error: string } | undefined;
 
-/** True if the member paid for an expense or has a share in one. */
-async function hasExpenses(memberId: string): Promise<boolean> {
-  const count = await db.expense.count({
-    where: { OR: [{ payerId: memberId }, { shares: { some: { memberId } } }] },
-  });
-  return count > 0;
+/** True if the member paid for an expense, has a share in one, or sent or received a payment. */
+async function hasRecords(memberId: string): Promise<boolean> {
+  const [expenses, payments] = await Promise.all([
+    db.expense.count({
+      where: { OR: [{ payerId: memberId }, { shares: { some: { memberId } } }] },
+    }),
+    db.payment.count({
+      where: { OR: [{ fromMemberId: memberId }, { toMemberId: memberId }] },
+    }),
+  ]);
+  return expenses + payments > 0;
 }
 
 // Both of these are used with useActionState; React passes the previous state
@@ -131,7 +136,7 @@ export async function removeMember(
 
   // Expenses point at their members, so a member with expenses stays until
   // those expenses are changed or deleted. Checked first to give a clear message.
-  if (await hasExpenses(memberId)) return { error: MEMBER_HAS_EXPENSES_MESSAGE };
+  if (await hasRecords(memberId)) return { error: MEMBER_HAS_EXPENSES_MESSAGE };
 
   // The group condition makes sure a member id from another group is ignored.
   await db.member.deleteMany({ where: { id: memberId, groupId: group.id } });
@@ -145,7 +150,7 @@ export async function leaveGroup(token: string): Promise<ActionResult> {
   if (!group) return { error: GROUP_NOT_FOUND_MESSAGE };
   const viewer = await getViewer(group);
   if (!canLeave(viewer)) return { error: NOT_ALLOWED_MESSAGE };
-  if (await hasExpenses(viewer.memberId)) return { error: MEMBER_HAS_EXPENSES_MESSAGE };
+  if (await hasRecords(viewer.memberId)) return { error: MEMBER_HAS_EXPENSES_MESSAGE };
 
   await db.member.deleteMany({ where: { id: viewer.memberId, groupId: group.id } });
   await forgetMember(group.id);

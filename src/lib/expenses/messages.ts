@@ -63,4 +63,7 @@ export function expenseMessages(errors: ExpenseErrors): ExpenseMessages {
 
 export const EXPENSE_NOT_FOUND_MESSAGE = "Kulu ei leitud.";
 export const MEMBER_HAS_EXPENSES_MESSAGE =
-  "Liiget ei saa eemaldada, sest tal on kulusid. Kustuta või muuda need kulud enne.";
+  "Liiget ei saa eemaldada, sest tal on kulusid või tasumisi. Kustuta või muuda need enne.";
+
+export const PAYMENT_CHANGED_MESSAGE =
+  "Soovitus on vahepeal muutunud. Laadi leht uuesti ja proovi siis.";
