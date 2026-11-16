@@ -22,3 +22,8 @@ export function canRemoveMember(viewer: Viewer, memberId: string): boolean {
 export function canLeave(viewer: Viewer): viewer is { role: "member"; memberId: string } {
   return viewer.role === "member";
 }
+
+/** The owner and joined members keep the expense list; visitors only see the invitation. */
+export function canManageExpenses(viewer: Viewer): boolean {
+  return viewer.role === "owner" || viewer.role === "member";
+}

@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { db } from "@/lib/db";
+import { MEMBER_HAS_EXPENSES_MESSAGE } from "@/lib/expenses/messages";
 import {
   GROUP_FULL_MESSAGE,
   GROUP_NOT_FOUND_MESSAGE,
@@ -106,25 +107,48 @@ export async function claimMember(token: string, memberId: string) {
   revalidatePath(`/g/${token}`);
 }
 
-export async function removeMember(token: string, memberId: string) {
+export type ActionResult = { error: string } | undefined;
+
+/** True if the member paid for an expense or has a share in one. */
+async function hasExpenses(memberId: string): Promise<boolean> {
+  const count = await db.expense.count({
+    where: { OR: [{ payerId: memberId }, { shares: { some: { memberId } } }] },
+  });
+  return count > 0;
+}
+
+// Both of these are used with useActionState; React passes the previous state
+// and the form data too, and these simply ignore them.
+
+export async function removeMember(
+  token: string,
+  memberId: string,
+): Promise<ActionResult> {
   const group = await loadGroup(token);
-  if (!group) return;
+  if (!group) return { error: GROUP_NOT_FOUND_MESSAGE };
   const viewer = await getViewer(group);
-  if (!canRemoveMember(viewer, memberId)) return;
+  if (!canRemoveMember(viewer, memberId)) return { error: NOT_ALLOWED_MESSAGE };
+
+  // Expenses point at their members, so a member with expenses stays until
+  // those expenses are changed or deleted. Checked first to give a clear message.
+  if (await hasExpenses(memberId)) return { error: MEMBER_HAS_EXPENSES_MESSAGE };
 
   // The group condition makes sure a member id from another group is ignored.
   await db.member.deleteMany({ where: { id: memberId, groupId: group.id } });
   if (viewer.role === "member") await forgetMember(group.id);
   revalidatePath(`/g/${token}`);
+  return undefined;
 }
 
-export async function leaveGroup(token: string) {
+export async function leaveGroup(token: string): Promise<ActionResult> {
   const group = await loadGroup(token);
-  if (!group) return;
+  if (!group) return { error: GROUP_NOT_FOUND_MESSAGE };
   const viewer = await getViewer(group);
-  if (!canLeave(viewer)) return;
+  if (!canLeave(viewer)) return { error: NOT_ALLOWED_MESSAGE };
+  if (await hasExpenses(viewer.memberId)) return { error: MEMBER_HAS_EXPENSES_MESSAGE };
 
   await db.member.deleteMany({ where: { id: viewer.memberId, groupId: group.id } });
   await forgetMember(group.id);
   revalidatePath(`/g/${token}`);
+  return undefined;
 }

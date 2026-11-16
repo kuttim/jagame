@@ -33,6 +33,49 @@ export async function getGroupByToken(token: string) {
         orderBy: { createdAt: "asc" },
         select: { id: true, name: true },
       },
+      expenses: {
+        orderBy: [{ date: "desc" }, { createdAt: "desc" }],
+        select: {
+          id: true,
+          description: true,
+          amount: true,
+          date: true,
+          payer: { select: { name: true } },
+          shares: {
+            orderBy: { member: { createdAt: "asc" } },
+            select: { memberId: true, amount: true, member: { select: { name: true } } },
+          },
+        },
+      },
+    },
+  });
+}
+
+/** One expense with its shares, but only if it belongs to the group with this token. */
+export async function getExpenseInGroup(token: string, expenseId: string) {
+  await connection();
+  return db.group.findUnique({
+    where: { shareToken: token },
+    select: {
+      id: true,
+      ownerId: true,
+      shareToken: true,
+      members: {
+        orderBy: { createdAt: "asc" },
+        select: { id: true, name: true },
+      },
+      expenses: {
+        where: { id: expenseId },
+        select: {
+          id: true,
+          description: true,
+          amount: true,
+          date: true,
+          payerId: true,
+          splitType: true,
+          shares: { select: { memberId: true, amount: true } },
+        },
+      },
     },
   });
 }

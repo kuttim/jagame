@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   canAddMember,
   canLeave,
+  canManageExpenses,
   canRemoveMember,
   type Viewer,
 } from "@/lib/groups/permissions";
@@ -39,5 +40,13 @@ describe("canLeave", () => {
     expect(canLeave(member)).toBe(true);
     expect(canLeave(owner)).toBe(false);
     expect(canLeave(visitor)).toBe(false);
+  });
+});
+
+describe("canManageExpenses", () => {
+  it("is for the owner and members, not visitors", () => {
+    expect(canManageExpenses(owner)).toBe(true);
+    expect(canManageExpenses(member)).toBe(true);
+    expect(canManageExpenses(visitor)).toBe(false);
   });
 });

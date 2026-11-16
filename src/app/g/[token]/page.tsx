@@ -4,9 +4,17 @@ import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { getGroupByToken } from "@/lib/groups/queries";
-import { canAddMember, canLeave, canRemoveMember } from "@/lib/groups/permissions";
+import { formatEuro } from "@/lib/calculation/money";
+import { formatDateEt } from "@/lib/expenses/format";
+import {
+  canAddMember,
+  canLeave,
+  canManageExpenses,
+  canRemoveMember,
+} from "@/lib/groups/permissions";
 import { getViewer } from "@/lib/groups/viewer";
 import { addMember, claimMember, joinGroup, leaveGroup, removeMember } from "./actions";
+import { ActionButton } from "./action-button";
 import { CopyLink } from "./copy-link";
 import { NameForm } from "./name-form";
 
@@ -64,6 +72,67 @@ async function Group({ params }: Pick<PageProps<"/g/[token]">, "params">) {
       </section>
 
       <section className="mt-10">
+        <div className="flex items-center justify-between gap-4">
+          <h2 className="text-lg font-semibold">
+            Kulud{" "}
+            <span className="font-normal text-zinc-500">
+              ({group.expenses.length})
+            </span>
+          </h2>
+          {canManageExpenses(viewer) && group.members.length > 0 && (
+            <Link
+              href={`/g/${token}/expenses/new`}
+              className="rounded-full bg-indigo-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-indigo-500"
+            >
+              Lisa kulu
+            </Link>
+          )}
+        </div>
+        {group.expenses.length === 0 ? (
+          <p className="mt-4 text-zinc-500">
+            Kulusid pole veel. Lisa esimene, kui keegi on midagi eest ära
+            maksnud.
+          </p>
+        ) : (
+          <>
+            <p className="mt-1 text-sm text-zinc-500">
+              Kokku {formatEuro(group.expenses.reduce((sum, e) => sum + e.amount, 0))}
+            </p>
+            <ul className="mt-4 divide-y divide-zinc-200 rounded-2xl border border-zinc-200 dark:divide-zinc-800 dark:border-zinc-800">
+              {group.expenses.map((expense) => (
+                <li key={expense.id} className="flex items-start justify-between gap-4 px-4 py-3">
+                  <div className="min-w-0">
+                    <p className="font-medium">{expense.description}</p>
+                    <p className="mt-0.5 text-sm text-zinc-500">
+                      {formatDateEt(expense.date.toISOString().slice(0, 10))} ·{" "}
+                      {expense.payer.name} maksis
+                    </p>
+                    <p className="mt-0.5 text-sm text-zinc-500">
+                      Jagatud:{" "}
+                      {expense.shares
+                        .map((share) => `${share.member.name} ${formatEuro(share.amount)}`)
+                        .join(", ")}
+                    </p>
+                  </div>
+                  <div className="flex shrink-0 flex-col items-end gap-1">
+                    <span className="font-semibold tabular-nums">{formatEuro(expense.amount)}</span>
+                    {canManageExpenses(viewer) && (
+                      <Link
+                        href={`/g/${token}/expenses/${expense.id}/edit`}
+                        className="text-sm text-zinc-500 transition-colors hover:text-indigo-600 dark:hover:text-indigo-400"
+                      >
+                        Muuda
+                      </Link>
+                    )}
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </>
+        )}
+      </section>
+
+      <section className="mt-10">
         <h2 className="text-lg font-semibold">
           Liikmed{" "}
           <span className="font-normal text-zinc-500">({group.members.length})</span>
@@ -79,15 +148,12 @@ async function Group({ params }: Pick<PageProps<"/g/[token]">, "params">) {
                   {isYou && <span className="text-sm text-zinc-500">(sina)</span>}
                 </span>
                 {canRemoveMember(viewer, member.id) && !isYou && (
-                  <form action={removeMember.bind(null, group.shareToken, member.id)}>
-                    <button
-                      type="submit"
-                      aria-label={`Eemalda ${member.name}`}
-                      className="cursor-pointer text-sm text-zinc-500 transition-colors hover:text-red-600 dark:hover:text-red-400"
-                    >
-                      Eemalda
-                    </button>
-                  </form>
+                  <ActionButton
+                    action={removeMember.bind(null, group.shareToken, member.id)}
+                    label="Eemalda"
+                    ariaLabel={`Eemalda ${member.name}`}
+                    className="cursor-pointer text-sm text-zinc-500 transition-colors hover:text-red-600 dark:hover:text-red-400"
+                  />
                 )}
               </li>
             );
@@ -108,14 +174,13 @@ async function Group({ params }: Pick<PageProps<"/g/[token]">, "params">) {
         )}
 
         {canLeave(viewer) && (
-          <form action={leaveGroup.bind(null, group.shareToken)} className="mt-8">
-            <button
-              type="submit"
+          <div className="mt-8">
+            <ActionButton
+              action={leaveGroup.bind(null, group.shareToken)}
+              label="Lahku grupist"
               className="cursor-pointer text-sm text-zinc-500 underline-offset-4 transition-colors hover:text-red-600 hover:underline dark:hover:text-red-400"
-            >
-              Lahku grupist
-            </button>
-          </form>
+            />
+          </div>
         )}
       </section>
     </>
