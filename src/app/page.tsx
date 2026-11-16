@@ -191,7 +191,7 @@ export default function Home() {
           <span>Jagame · kooliprojekt</span>
           <a
             href="https://github.com/kuttim/jagame"
-            className="transition-colors hover:text-zinc-900 dark:hover:text-zinc-100"
+            className="inline-flex min-h-10 items-center transition-colors hover:text-zinc-900 dark:hover:text-zinc-100"
           >
             GitHub
           </a>

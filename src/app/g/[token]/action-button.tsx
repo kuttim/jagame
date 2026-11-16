@@ -16,12 +16,12 @@ export function ActionButton({ action, label, ariaLabel, className }: ActionButt
   const [state, formAction, pending] = useActionState(action, undefined);
 
   return (
-    <form action={formAction} className="text-right">
+    <form action={formAction} className="shrink-0 text-right">
       <button
         type="submit"
         disabled={pending}
         aria-label={ariaLabel}
-        className={className}
+        className={`whitespace-nowrap ${className ?? ""}`}
       >
         {label}
       </button>

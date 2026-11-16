@@ -72,7 +72,7 @@ async function EditExpense({ params }: Pick<Props, "params">) {
     <>
       <Link
         href={`/g/${token}`}
-        className="text-sm text-zinc-500 transition-colors hover:text-zinc-900 dark:hover:text-zinc-100"
+        className="-mx-2 inline-flex min-h-10 items-center px-2 text-sm text-zinc-500 transition-colors hover:text-zinc-900 dark:hover:text-zinc-100"
       >
         ← Tagasi gruppi
       </Link>

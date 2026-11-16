@@ -58,7 +58,7 @@ async function Group({ params }: Pick<PageProps<"/g/[token]">, "params">) {
       {viewer.role === "owner" && (
         <Link
           href="/groups"
-          className="mb-4 block text-sm text-zinc-500 transition-colors hover:text-zinc-900 dark:hover:text-zinc-100"
+          className="-mx-2 mb-2 flex min-h-10 items-center px-2 text-sm text-zinc-500 transition-colors hover:text-zinc-900 dark:hover:text-zinc-100"
         >
           ← Minu grupid
         </Link>
@@ -158,7 +158,7 @@ async function Group({ params }: Pick<PageProps<"/g/[token]">, "params">) {
                     {canManageExpenses(viewer) && (
                       <Link
                         href={`/g/${token}/expenses/${expense.id}/edit`}
-                        className="text-sm text-zinc-500 transition-colors hover:text-indigo-600 dark:hover:text-indigo-400"
+                        className="-mx-2 inline-flex min-h-10 items-center px-2 text-sm text-zinc-500 transition-colors hover:text-indigo-600 dark:hover:text-indigo-400"
                       >
                         Muuda
                       </Link>
@@ -191,7 +191,7 @@ async function Group({ params }: Pick<PageProps<"/g/[token]">, "params">) {
                     action={removeMember.bind(null, group.shareToken, member.id)}
                     label="Eemalda"
                     ariaLabel={`Eemalda ${member.name}`}
-                    className="cursor-pointer text-sm text-zinc-500 transition-colors hover:text-red-600 dark:hover:text-red-400"
+                    className="-mx-2 inline-flex min-h-10 items-center px-2 cursor-pointer text-sm text-zinc-500 transition-colors hover:text-red-600 dark:hover:text-red-400"
                   />
                 )}
               </li>
@@ -217,7 +217,7 @@ async function Group({ params }: Pick<PageProps<"/g/[token]">, "params">) {
             <ActionButton
               action={leaveGroup.bind(null, group.shareToken)}
               label="Lahku grupist"
-              className="cursor-pointer text-sm text-zinc-500 underline-offset-4 transition-colors hover:text-red-600 hover:underline dark:hover:text-red-400"
+              className="-mx-2 inline-flex min-h-10 items-center px-2 cursor-pointer text-sm text-zinc-500 underline-offset-4 transition-colors hover:text-red-600 hover:underline dark:hover:text-red-400"
             />
           </div>
         )}
@@ -230,7 +230,7 @@ function Avatar({ name }: { name: string }) {
   return (
     <span
       aria-hidden
-      className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-violet-500 text-sm font-semibold text-white"
+      className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-violet-500 text-sm font-semibold text-white"
     >
       {[...name][0]?.toLocaleUpperCase("et")}
     </span>

@@ -46,7 +46,7 @@ export function Entry({ entry }: { entry: DevlogEntry }) {
         </p>
       ) : bodyLength > FOLD_AFTER ? (
         <details className="group mt-1">
-          <summary className="cursor-pointer list-none text-lg font-medium leading-7 [&::-webkit-details-marker]:hidden">
+          <summary className="cursor-pointer list-none py-1 text-lg font-medium leading-7 [&::-webkit-details-marker]:hidden">
             <EntryText text={headline} />
             <span className="ml-2 whitespace-nowrap text-sm font-normal text-indigo-600 group-open:hidden dark:text-indigo-400">
               Loe edasi ↓

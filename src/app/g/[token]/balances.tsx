@@ -73,7 +73,7 @@ export function Balances({ summary, token, payments, canManage }: BalancesProps)
             {summary.transfers.map((transfer) => (
               <li
                 key={`${transfer.fromId}-${transfer.toId}`}
-                className="flex items-center justify-between gap-3"
+                className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-3"
               >
                 <span className="min-w-0">
                   <span className="font-medium">{nameOf(transfer.fromId)}</span>
@@ -95,7 +95,7 @@ export function Balances({ summary, token, payments, canManage }: BalancesProps)
                       )}
                       label="Märgi tasutuks"
                       ariaLabel={`Märgi tasutuks: ${nameOf(transfer.fromId)} maksab ${nameOf(transfer.toId)}le ${formatEuro(transfer.amount)}`}
-                      className="cursor-pointer rounded-full border border-zinc-300 px-3 py-1 text-sm font-medium transition-colors hover:border-emerald-500 hover:bg-emerald-50 dark:border-zinc-700 dark:hover:bg-emerald-500/10"
+                      className="min-h-10 cursor-pointer rounded-full border border-zinc-300 px-4 py-1 text-sm font-medium transition-colors hover:border-emerald-500 hover:bg-emerald-50 dark:border-zinc-700 dark:hover:bg-emerald-500/10"
                     />
                   )}
                 </span>
@@ -114,7 +114,7 @@ export function Balances({ summary, token, payments, canManage }: BalancesProps)
             {payments.map((payment) => (
               <li
                 key={payment.id}
-                className="flex items-center justify-between gap-3 px-4 py-2.5 text-sm"
+                className="flex flex-col gap-1 px-4 py-2.5 text-sm sm:flex-row sm:items-center sm:justify-between sm:gap-3"
               >
                 <span className="min-w-0">
                   <span className="text-zinc-500">{formatDateEt(payment.date)} · </span>
@@ -129,7 +129,7 @@ export function Balances({ summary, token, payments, canManage }: BalancesProps)
                       action={undoPayment.bind(null, token, payment.id)}
                       label="Võta tagasi"
                       ariaLabel={`Võta tasumine tagasi: ${payment.fromName} → ${payment.toName} ${formatEuro(payment.amount)}`}
-                      className="cursor-pointer text-zinc-500 transition-colors hover:text-red-600 dark:hover:text-red-400"
+                      className="-mx-2 inline-flex min-h-10 items-center px-2 cursor-pointer text-zinc-500 transition-colors hover:text-red-600 dark:hover:text-red-400"
                     />
                   )}
                 </span>

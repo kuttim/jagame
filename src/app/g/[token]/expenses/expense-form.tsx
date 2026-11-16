@@ -148,7 +148,7 @@ export function ExpenseForm({
         <FieldError id="payer-error" message={errors.payer} />
       </div>
 
-      <fieldset>
+      <fieldset className="min-w-0">
         <legend className="mb-2 block text-sm font-medium">Kuidas jagada?</legend>
         <div className="flex flex-wrap gap-2">
           {SPLIT_OPTIONS.map((option) => (
@@ -216,7 +216,7 @@ export function ExpenseForm({
         </button>
         <Link
           href={cancelHref}
-          className="text-sm text-zinc-500 transition-colors hover:text-zinc-900 dark:hover:text-zinc-100"
+          className="-mx-2 inline-flex min-h-10 items-center px-2 text-sm text-zinc-500 transition-colors hover:text-zinc-900 dark:hover:text-zinc-100"
         >
           Tühista
         </Link>

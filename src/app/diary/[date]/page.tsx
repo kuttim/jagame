@@ -44,7 +44,7 @@ async function Day({ params }: Pick<PageProps<"/diary/[date]">, "params">) {
     <article>
       <Link
         href="/diary"
-        className="text-sm text-zinc-500 transition-colors hover:text-zinc-900 dark:hover:text-zinc-100"
+        className="-mx-2 inline-flex min-h-10 items-center px-2 text-sm text-zinc-500 transition-colors hover:text-zinc-900 dark:hover:text-zinc-100"
       >
         ← Kõik päevad
       </Link>

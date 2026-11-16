@@ -24,3 +24,18 @@ body {
   color: var(--foreground);
   font-family: var(--font-sans), Arial, Helvetica, sans-serif;
 }
+
+/* A long unbroken word (for example a name someone typed) must wrap instead of
+   pushing the page wider than the screen. */
+body {
+  overflow-wrap: anywhere;
+}
+
+/* A clear ring for keyboard users on links and buttons (form fields have their own). */
+a:focus-visible,
+button:focus-visible,
+summary:focus-visible {
+  outline: 2px solid #6366f1;
+  outline-offset: 2px;
+  border-radius: 0.375rem;
+}
